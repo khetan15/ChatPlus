@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "662240267181",
+    "firebase_url": "https://chatplus-40e7a.firebaseio.com",
+    "project_id": "chatplus-40e7a",
+    "storage_bucket": "chatplus-40e7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662240267181:android:208bf6b085201c5583ef24",
+        "android_client_info": {
+          "package_name": "com.ir_sj.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662240267181-b3a4gkpri8atrelh8v0am3ndgk7htagk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACZ122i-s33o3rNbz-HJ8kVyj5myLUnfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662240267181-b3a4gkpri8atrelh8v0am3ndgk7htagk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

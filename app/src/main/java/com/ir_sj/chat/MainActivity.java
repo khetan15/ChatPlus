@@ -40,7 +40,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
-
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -48,6 +47,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     int REGISTER_CODE = 1;
+    private ImageButton AddNewPostButton;
     TextView userName;
     CircularImageView imgview;
     //FirebaseUser user;
@@ -55,13 +55,24 @@ public class MainActivity extends AppCompatActivity {
     StorageReference sref;
     String uid;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
+
+        AddNewPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                SendUserToPostactivity();
+            }
+        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         userName = (TextView)findViewById(R.id.userName);
         imgview = (CircularImageView)findViewById(R.id.image);
@@ -106,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
-                            // Handle any errors
+
                         }
                     });
                 }
@@ -116,6 +127,12 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+
+    private void SendUserToPostactivity()
+    {
+        Intent addNewPostIntent= new Intent(MainActivity.this,postactivity.class);
+        startActivity(addNewPostIntent);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

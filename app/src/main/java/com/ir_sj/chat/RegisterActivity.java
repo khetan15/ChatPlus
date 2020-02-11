@@ -66,8 +66,8 @@ public class RegisterActivity extends AppCompatActivity
         dp = (ImageView)findViewById(R.id.imageView);
 
         //user = FirebaseAuth.getInstance().getCurrentUser();
-        if(Splashscreen.user != null)
-        uid = Splashscreen.user.getUid();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         else
             Toast.makeText(RegisterActivity.this, "bad",Toast.LENGTH_SHORT);
 

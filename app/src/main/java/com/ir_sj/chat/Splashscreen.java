@@ -28,21 +28,21 @@ public class Splashscreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        //user = FirebaseAuth.getInstance().getCurrentUser();
         progressBar=findViewById(R.id.pbar);
         progressBar.getProgress();
         handle=new Handler();
         handle.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(user == null) {
+                if(FirebaseAuth.getInstance().getCurrentUser() == null) {
                     FirebaseAuth.getInstance().signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>()
                     {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
-                                user = FirebaseAuth.getInstance().getCurrentUser();
+                                //user = FirebaseAuth.getInstance().getCurrentUser();
                                 Toast.makeText(Splashscreen.this, "Ready to roll..!!", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(Splashscreen.this, RegisterActivity.class));
                             }

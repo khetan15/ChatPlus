@@ -3,6 +3,7 @@ package com.ir_sj.chat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,42 +20,104 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.io.File;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     int REGISTER_CODE = 1;
+    TextView userName;
+    CircularImageView imgview;
+    //FirebaseUser user;
+    DatabaseReference ref;
+    StorageReference sref;
+    String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        userName = (TextView)findViewById(R.id.userName);
+        imgview = (CircularImageView)findViewById(R.id.image);
+
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        if(FirebaseAuth.getInstance().getCurrentUser() == null) //no user signed in
-        {
-            FirebaseAuth.getInstance().signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            //user = FirebaseAuth.getInstance().getCurrentUser();
+            uid = Splashscreen.user.getUid();
+            ref = FirebaseDatabase.getInstance().getReference("UserData/"+uid);
+            sref = FirebaseStorage.getInstance().getReference("profile_images/");
+            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
+
+            ref.child("name").addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful())
-                    {
-                        Intent i = new Intent(MainActivity.this, RegisterActivity.class);
-                        startActivityForResult(i, REGISTER_CODE);
-                    }
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String value = dataSnapshot.getValue(String.class);
+                    //Toast.makeText(MainActivity.this, value, Toast.LENGTH_LONG).show();
+                    userName.setText(value);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+            ref.child("image").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String value = dataSnapshot.getValue(String.class);
+
+                    // imgview.setImageURI(Uri.parse(value));
+                    //Glide.with(getApplicationContext()).load(value).into(imgview);
+                    sref.child(uid).getDownloadUrl()
+                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Got the download URL
+                                    Glide.with(getApplicationContext()).load(uri).into(imgview);
+                                    Toast.makeText(MainActivity.this, uri.toString(), Toast.LENGTH_SHORT).show();
+                                    //Picasso.get().load(uri).into(imgview);
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any errors
+                        }
+                    });
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
                 }
             });
         }
-        else
-        {
-            Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,5 +166,10 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    void downloadImage()
+    {
+
     }
 }

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "662240267181-lk94a7p9ifq8t30uncgf3ug7l750l8gd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ir_sj.chat",
+            "certificate_hash": "c85605ce630691aa4f679c7860d858b531824eaa"
+          }
+        },
+        {
           "client_id": "662240267181-b3a4gkpri8atrelh8v0am3ndgk7htagk.apps.googleusercontent.com",
           "client_type": 3
         }

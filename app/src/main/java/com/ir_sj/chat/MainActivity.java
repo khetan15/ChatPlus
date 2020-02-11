@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             //user = FirebaseAuth.getInstance().getCurrentUser();
-            uid = Splashscreen.user.getUid();
+            uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             ref = FirebaseDatabase.getInstance().getReference("UserData/"+uid);
             sref = FirebaseStorage.getInstance().getReference("profile_images/");
             Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
@@ -94,14 +94,12 @@ public class MainActivity extends AppCompatActivity {
                     String value = dataSnapshot.getValue(String.class);
 
                     // imgview.setImageURI(Uri.parse(value));
-                    //Glide.with(getApplicationContext()).load(value).into(imgview);
                     sref.child(uid).getDownloadUrl()
                             .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     // Got the download URL
                                     Glide.with(getApplicationContext()).load(uri).into(imgview);
-                                    Toast.makeText(MainActivity.this, uri.toString(), Toast.LENGTH_SHORT).show();
                                     //Picasso.get().load(uri).into(imgview);
 
                                 }
@@ -120,13 +118,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
         if(item.getItemId() == R.id.menu_sign_out)
         {
             AuthUI.getInstance().signOut(this)
@@ -166,10 +166,5 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
-    }
-
-    void downloadImage()
-    {
-
     }
 }

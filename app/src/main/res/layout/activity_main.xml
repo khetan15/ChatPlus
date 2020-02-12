@@ -57,12 +57,18 @@
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
-
     <ImageButton
         android:id="@+id/add_new_post_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_input_add"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="76dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/all_user_post_list"
+        android:layout_width="409dp"
+        android:layout_height="583dp"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="6dp" />
+        tools:layout_editor_absoluteY="128dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

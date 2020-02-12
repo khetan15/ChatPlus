@@ -32,11 +32,10 @@
         android:id="@+id/update_button"
         android:layout_width="100dp"
         android:layout_height="54dp"
-        android:layout_marginTop="120dp"
         android:background="@drawable/splash3"
         android:text="Button"
-        tools:layout_editor_absoluteX="160dp"
-        tools:layout_editor_absoluteY="538dp" />
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="542dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

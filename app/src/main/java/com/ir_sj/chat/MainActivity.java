@@ -4,33 +4,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,10 +35,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     int REGISTER_CODE = 1;
@@ -54,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference ref;
     StorageReference sref;
     String uid;
+    private RecyclerView postList;
 
 
     @Override
@@ -62,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
 
+
+
         AddNewPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
@@ -69,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
                 SendUserToPostactivity();
             }
         });
+
+
+        postList= (RecyclerView)findViewById(R.id.all_user_post_list);
+        postList.setHasFixedSize(true);
+        LinearLayoutManager LinearLayoutManager=new LinearLayoutManager(this);
+        LinearLayoutManager.setReverseLayout(true);
+        LinearLayoutManager.setStackFromEnd(true);
+        postList.setLayoutManager(LinearLayoutManager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -125,7 +127,14 @@ public class MainActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
+
+            DisplayAllUsersPosts();
         }
+
+    private void DisplayAllUsersPosts()
+    {
+        FirebaseRecyclerAdapter
+    }
 
 
     private void SendUserToPostactivity()

@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -121,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     // Got the download URL
                                     //Glide.with(getApplicationContext()).load(uri).into(imgview);
+
                                     //Picasso.get().load(uri).into(imgview);
+                      Picasso.get().load(uri).fit().centerCrop().into(imgview);
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -272,10 +276,27 @@ public class MainActivity extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(MainActivity.this, "Signed Out!", Toast.LENGTH_SHORT).show();
-                            finish();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setMessage("Do you want to sign out ?")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            Toast.makeText(MainActivity.this, "Signed Out!", Toast.LENGTH_SHORT).show();
+                                            Intent signedout = new Intent(MainActivity.this, Splashscreen.class);
+                                            startActivity(signedout);
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.setTitle("Sign Out?");
+                            alert.show();
                         }
                     });
+
         }
 
         if(item.getItemId() == R.id.menu_change_mode)

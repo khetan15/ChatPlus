@@ -35,25 +35,12 @@ public class Splashscreen extends AppCompatActivity {
         handle.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(FirebaseAuth.getInstance().getCurrentUser() == null) {
-                    FirebaseAuth.getInstance().signInAnonymously().addOnCompleteListener(new OnCompleteListener<AuthResult>()
-                    {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful())
-                            {
-                                //user = FirebaseAuth.getInstance().getCurrentUser();
-                                Toast.makeText(Splashscreen.this, "Ready to roll..!!", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(Splashscreen.this, RegisterActivity.class));
-                            }
-                        }
-                    });
-                }
+                if(FirebaseAuth.getInstance().getCurrentUser() ==  null)
+                    startActivity(new Intent(Splashscreen.this, FirstPage.class));
                 else
                     startActivity(new Intent(Splashscreen.this, MainActivity.class));
                 finish();
             }
-        },2000);
+        },4000);
     }
 }
-

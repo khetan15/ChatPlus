@@ -8,36 +8,41 @@
 
     <ImageButton
         android:id="@+id/select_post_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="410dp"
+        android:layout_height="362dp"
         android:scaleType="centerCrop"
-        app:srcCompat="@android:drawable/ic_menu_report_image"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="76dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.246"
+        app:srcCompat="@drawable/ic_add_a_photo_black_24dp" />
 
     <EditText
         android:id="@+id/post_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:ems="10"
         android:gravity="start|top"
         android:hint="Insert caption.."
         android:inputType="textMultiLine"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="430dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.677"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/update_button"
         android:layout_width="100dp"
         android:layout_height="54dp"
-        android:background="@drawable/splash3"
-        android:text="Button"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="542dp" />
+        android:text="Post"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
 
-    <androidx.constraintlayout.widget.Guideline
+   <!-- <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,7 +75,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
-
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

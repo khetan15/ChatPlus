@@ -57,7 +57,7 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-
+<!--
     <ImageButton
         android:id="@+id/add_new_post_button"
         android:layout_width="wrap_content"
@@ -68,15 +68,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_user_post_list"
-        android:layout_width="385dp"
-        android:layout_height="541dp"
-        android:layout_marginTop="168dp"
+        android:layout_width="399dp"
+        android:layout_height="609dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

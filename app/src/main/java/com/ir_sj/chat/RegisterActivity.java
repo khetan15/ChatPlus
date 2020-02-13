@@ -178,7 +178,7 @@ public class RegisterActivity extends AppCompatActivity
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            /*sref.putFile(img).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            /*sref_profile_image.putFile(img).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
                 {

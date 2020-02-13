@@ -48,6 +48,8 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     int REGISTER_CODE = 1;
     private ImageButton AddNewPostButton;
+
+    private Button CommentPostButton;
     TextView userName;
     CircularImageView imgview;
     //FirebaseUser user;
@@ -61,6 +63,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
+
+
+        CommentPostButton = (Button) findViewById(R.id.Comment_btn);
+
+        CommentPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent commentsIntent = new Intent(MainActivity.this, CommentActivity.class);
+                commentsIntent.putExtra("PostKey",PostKey);
+                startActivity(commentsIntent);
+            }
+        });
+
 
         AddNewPostButton.setOnClickListener(new View.OnClickListener() {
             @Override

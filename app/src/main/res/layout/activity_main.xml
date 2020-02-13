@@ -57,12 +57,20 @@
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
-
     <ImageButton
         android:id="@+id/add_new_post_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_input_add"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="6dp" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="103dp" />
+
+    <Button
+        android:id="@+id/Comment_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="100dp"
+        android:text="Comment_btn"
+        tools:layout_editor_absoluteX="212dp"
+        tools:layout_editor_absoluteY="189dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

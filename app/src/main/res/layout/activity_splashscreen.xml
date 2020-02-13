@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Splashscreen"
-    android:background="@drawable/splash3">
+    android:background="@color/forceful_orange">
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,13 +13,24 @@
         android:layout_marginBottom="580dp"
         android:text="Chat+"
         android:textAlignment="center"
-        android:textColor="#2196F3"
+        android:textColor="@color/harvester"
+        android:fontFamily="monospace"
         android:textSize="60dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_autoPlay="true"
+        app:lottie_fileName="emo.json"
+        app:lottie_loop="false"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="95dp" />
 
     <ProgressBar
         android:layout_width="60dp"

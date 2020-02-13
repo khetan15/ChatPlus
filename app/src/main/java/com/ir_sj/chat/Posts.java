@@ -3,7 +3,9 @@ package com.ir_sj.chat;
 
 public class Posts
 {
-    public String uid, time, date, postimage, description, profileimage, fullname;
+    public String uid, time, date,  description, fullname;
+    String postimage;
+    String profileimage;
 
     public Posts()
     {

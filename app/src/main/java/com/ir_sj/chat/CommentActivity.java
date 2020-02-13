@@ -5,16 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -44,11 +50,12 @@ public class CommentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comment);
 
         Post_Key = getIntent().getExtras().get("PostKey").toString();
+        Toast.makeText(this, Post_Key, Toast.LENGTH_SHORT).show();
 
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
-        UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        PostsRef= FirebaseDatabase.getInstance().getReference().child("Posts").child(Post_Key).child("Comments");
+        UserRef = FirebaseDatabase.getInstance().getReference("UserData");
+        PostsRef= FirebaseDatabase.getInstance().getReference("Posts/"+Post_Key+"/Comments");
 
         CommentsList = (RecyclerView) findViewById(R.id.comments_list);
         CommentsList.setHasFixedSize(true);
@@ -62,15 +69,15 @@ public class CommentActivity extends AppCompatActivity {
 
         PostCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View v)
+            {
                 UserRef.child(current_user_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                         if(dataSnapshot.exists())
                         {
-                            String userName = dataSnapshot.child("username").getValue().toString();
+                            String userName = dataSnapshot.child("name").getValue().toString();
 
                             ValidateComment(userName);
                             CommentInputText.setText("");
@@ -89,58 +96,38 @@ public class CommentActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapter
-                = new FirebaseRecyclerAdapter<Comments, CommentsViewHolder>(
-                        Comments.class,
-                        R.layout.all_comments_layout,
-                        CommentsViewHolder.class,
-                        PostsRef
-        ) {
+        FirebaseRecyclerOptions<Comments> options = new FirebaseRecyclerOptions.Builder<Comments>().setQuery(PostsRef, Comments.class).build();
+        FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapterC = new FirebaseRecyclerAdapter<Comments, CommentsViewHolder>(options) {
             @Override
-            protected void populateViewHolder(CommentsViewHolder viewHolder, Comments model, int i) {
+            protected void onBindViewHolder(@NonNull final CommentsViewHolder commentsViewHolder, int i, @NonNull final Comments comments) {
+                commentsViewHolder.myUserName.setText(comments.getUsername());
+                commentsViewHolder.myTime.setText(comments.getTime());
+                commentsViewHolder.myDate.setText(comments.getDate());
+                commentsViewHolder.myComment.setText(comments.getComment());
+            }
 
-                    viewHolder.setUsername(model.getUsername());
-                viewHolder.setComment(model.getComment());
-                viewHolder.setDate(model.getDate());
-                viewHolder.setTime(model.getTime());
+            @NonNull
+            @Override
+            public CommentsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_comments_layout, parent, false);
+
+                return new CommentsViewHolder(view);
             }
         };
-
-        CommentsList.setAdapter(firebaseRecyclerAdapter);
+        CommentsList.setAdapter(firebaseRecyclerAdapterC);
+        firebaseRecyclerAdapterC.startListening();
     }
 
     public static class CommentsViewHolder extends RecyclerView.ViewHolder
     {
-        View mView;
-
-        public CommentsViewHolder(View itemView) {
-            super(itemView);
-            mView =itemView;
-        }
-
-        public void setUsername(String username)
+        TextView myUserName, myComment, myDate, myTime;
+        public CommentsViewHolder(@NonNull View mView)
         {
-            TextView myUserName = (TextView)mView.findViewById(R.id.comment_username);
-            myUserName.setText("@"+username+" ");
-        }
-
-        public void setComment(String comment)
-        {
-            TextView myComment = (TextView)mView.findViewById(R.id.comment_text);
-            myComment.setText(comment);
-        }
-
-        public void setDate(String date)
-        {
-            TextView myDate = (TextView)mView.findViewById(R.id.comment_date);
-            myDate.setText("  Date: "+date);
-        }
-
-        public void setTime(String time)
-        {
-            TextView myTime = (TextView)mView.findViewById(R.id.comment_time);
-            myTime.setText("  Time: "+time);
+            super(mView);
+            myUserName = (TextView)mView.findViewById(R.id.comment_username);
+            myComment = (TextView)mView.findViewById(R.id.comment_text);
+            myDate = (TextView)mView.findViewById(R.id.comment_date);
+            myTime = (TextView)mView.findViewById(R.id.comment_time);
         }
     }
 
@@ -149,7 +136,7 @@ public class CommentActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(commentText))
         {
-            Toast.makeText(this, "please write text to comment..", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please write text to comment..", Toast.LENGTH_SHORT).show();
         }
         else
         {
@@ -170,14 +157,14 @@ public class CommentActivity extends AppCompatActivity {
             commentsMap.put("time",saveCuerrentTime);
             commentsMap.put("username",userName);
 
-            PostsRef.child(RandomKey).updateChildren(commentsMap)
+            PostsRef.push().setValue(commentsMap)
                     .addOnCompleteListener(new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
 
                             if(task.isSuccessful())
                             {
-                                Toast.makeText(CommentActivity.this, "you have commented successfully..", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CommentActivity.this, "You have commented successfully..", Toast.LENGTH_SHORT).show();
                             }
                             else
                             {
@@ -185,9 +172,6 @@ public class CommentActivity extends AppCompatActivity {
                             }
                         }
                     });
-
-
-
         }
     }
 }

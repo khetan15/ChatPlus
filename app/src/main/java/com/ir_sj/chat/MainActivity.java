@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference ref,PostsRef;
     StorageReference sref_profile_image, sref_post_image;
     String uid;
+    String PostKey;
     private RecyclerView postList;
 
 
@@ -63,20 +65,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CommentPostButton = (Button) findViewById(R.id.Comment_btn);
 
-        CommentPostButton.setOnClickListener(new View.OnClickListener() {
+        //CommentPostButton = (Button) findViewById(R.id.post_comment_bin);
+
+        /*CommentPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent commentsIntent = new Intent(MainActivity.this, CommentActivity.class);
-                commentsIntent.putExtra("PostKey",PostKey);
-                startActivity(commentsIntent);
+
             }
-        });
-
-
-        AddNewPostButton.setOnClickListener(new View.OnClickListener() {
+        });*/
         PostsRef=FirebaseDatabase.getInstance().getReference().child("Posts");
+
+        /*AddNewPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
 
         //AddNewPostButton = (ImageButton) findViewById(R.id.add_new_post_button);
 
@@ -187,16 +192,20 @@ public class MainActivity extends AppCompatActivity {
                    (options) {
                @Override
                protected void onBindViewHolder(@NonNull final PostsViewHolder postsViewHolder, int i, @NonNull final Posts posts) {
-                   /*postsViewHolder.setFullname(posts.getFullname());
-                   postsViewHolder.setTime(posts.getTime());
-                   postsViewHolder.setDate(posts.getDate());
-                   postsViewHolder.setDescription(posts.getDescription());
-                   postsViewHolder.setProfileimage(getApplicationContext(), posts.getProfileimage());
-                   postsViewHolder.setPostimage(getApplicationContext(), posts.getPostimage());*/
                    postsViewHolder.userName.setText(posts.getFullname());
                    postsViewHolder.time.setText(posts.getTime());
                    postsViewHolder.date.setText(posts.getDate());
                    postsViewHolder.description.setText(posts.getDescription());
+                   PostKey = getRef(i).getKey();
+
+                   postsViewHolder.comment.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           Intent commentsIntent = new Intent(MainActivity.this, CommentActivity.class);
+                           commentsIntent.putExtra("PostKey", PostKey);
+                           startActivity(commentsIntent);
+                       }
+                   });
 
                    sref_post_image.child(posts.getUid()).child(posts.getDate()+posts.getTime()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                        @Override
@@ -231,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
         TextView userName, time, date, description;
         ImageView postImage;
         CircleImageView dp;
+        Button like, comment;
 
         public PostsViewHolder(@NonNull View view)
         {
@@ -241,52 +251,9 @@ public class MainActivity extends AppCompatActivity {
             description=view.findViewById(R.id.post_description);
             postImage=view.findViewById(R.id.post_image);
             dp=view.findViewById(R.id.post_profile_image);
+            like=view.findViewById(R.id.like);
+            comment=view.findViewById(R.id.comment);
         }
-
-        /*View mView;
-
-        public PostsViewHolder(View itemView)
-        {
-            super(itemView);
-            mView = itemView;
-        }
-
-        public void setFullname(String fullname)
-        {
-            TextView username = (TextView) mView.findViewById(R.id.post_user_name);
-            username.setText(fullname);
-        }
-
-        public void setProfileimage(Context ctx, String profileimage)
-        {
-            CircleImageView image = (CircleImageView) mView.findViewById(R.id.post_profile_image);
-            Picasso.get().load(Uri.parse(profileimage)).into(image);
-        }
-
-        public void setTime(String time)
-        {
-            TextView PostTime = (TextView) mView.findViewById(R.id.post_time);
-            PostTime.setText("    " + time);
-        }
-
-        public void setDate(String date)
-        {
-            TextView PostDate = (TextView) mView.findViewById(R.id.post_date);
-            PostDate.setText("    " + date);
-        }
-
-        public void setDescription(String description)
-        {
-            TextView PostDescription = (TextView) mView.findViewById(R.id.post_description);
-            PostDescription.setText(description);
-        }
-
-        public void setPostimage(Context ctx1,  String postimage)
-        {
-            ImageView PostImage = (ImageView) mView.findViewById(R.id.post_image);
-            Picasso.get().load(Uri.parse(postimage)).into(PostImage);
-        }*/
-
     }
 
     private void SendUserToPostactivity()

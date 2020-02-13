@@ -42,7 +42,7 @@ public class Postactivity extends AppCompatActivity {
     private String Description;
     private StorageReference Postimagesreference;
     private DatabaseReference UsersRef,PostsRef;
-    private String saveCurrentDate,saveCurrentTime,postRandomName,downloadurl,current_user_id;
+    private String saveCurrentDate, saveCurrentTime, postRandomName, downloadurl, current_user_id;
     private FirebaseAuth mAuth;
 
 

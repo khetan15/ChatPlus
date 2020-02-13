@@ -3,7 +3,6 @@ package com.ir_sj.chat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.ButtonBarLayout;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -32,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class postactivity extends AppCompatActivity {
+public class Postactivity extends AppCompatActivity {
 
     private ImageButton Selectpostimage;
     private Button Updatepostbutton;
@@ -56,13 +55,13 @@ public class postactivity extends AppCompatActivity {
         current_user_id=mAuth.getCurrentUser().getUid();
 
         Postimagesreference= FirebaseStorage.getInstance().getReference();
-        UsersRef= FirebaseDatabase.getInstance().getReference().child("Users");
+        UsersRef= FirebaseDatabase.getInstance().getReference().child("UserData");
         PostsRef= FirebaseDatabase.getInstance().getReference().child("Posts");
 
         Selectpostimage=(ImageButton) findViewById(R.id.select_post_image);
         Updatepostbutton=(Button) findViewById(R.id.update_button);
         Postdescription=(EditText) findViewById(R.id.post_description);
-        loadingBar=new ProgressDialogp(this);
+        loadingBar=new ProgressDialog(this);
 
         Selectpostimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,8 +122,8 @@ public class postactivity extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
 
-                    downloadurl= task.getResult().getDownloadUrl().toString();
-                    Toast.makeText(postactivity.this,"image uploaded successfully",Toast.LENGTH_SHORT).show();
+                    downloadurl= task.getResult().getStorage().getDownloadUrl().toString();
+                    Toast.makeText(Postactivity.this,"image uploaded successfully",Toast.LENGTH_SHORT).show();
 
                     SavingPostInformationToDatabase();
 
@@ -132,7 +131,7 @@ public class postactivity extends AppCompatActivity {
                 else
                 {
                     String message=task.getException().getMessage();
-                    Toast.makeText(postactivity.this,"error occured" + message,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Postactivity.this,"error occured" + message,Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -147,37 +146,36 @@ public class postactivity extends AppCompatActivity {
 
                if(dataSnapshot.exists())
                {
-                   String UserFullName=dataSnapshot.child("fullname").getValue().toString();
-                   String UserProfileImage=dataSnapshot.child("profileimage").getValue().toString();
+                   String UserFullName=dataSnapshot.child("name").getValue().toString();
+                   String UserProfileImage=dataSnapshot.child("image").getValue().toString();
 
                    HashMap postsMap=new HashMap();
-                   postMap.put("uid",current_user_id);
-                   postMap.put("date",saveCurrentDate);
-                   postMap.put("time",saveCurrentTime);
-                   postMap.put("description",Description);
-                   postMap.put("postimage",downloadurl);
-                   postMap.put("uid",userProfileImage);
-                   postMap.put("fullname",userFullName);
-                 PostRef.child(current_user_id+postRandomName).updateChildren(postsMap)
+                   postsMap.put("uid",current_user_id);
+                   postsMap.put("date",saveCurrentDate);
+                   postsMap.put("time",saveCurrentTime);
+                   postsMap.put("description",Description);
+                   postsMap.put("postimage",downloadurl);
+                   postsMap.put("dp",UserProfileImage);
+                   postsMap.put("name",UserFullName);
+                 PostsRef.child(current_user_id+postRandomName).updateChildren(postsMap)
                  .addOnCompleteListener(new OnCompleteListener() {
                      @Override
                      public void onComplete(@NonNull Task task)
                      {
                          if(task.isSuccessful())
                          {
-                             SendUserToMainActivity();
-                             Toast.makeText(postactivity.this,"new post is updated sucfully",Toast.LENGTH_SHORT).show();
+                             Toast.makeText(Postactivity.this,"new post is updated sucessfully",Toast.LENGTH_SHORT).show();
                              loadingBar.dismiss();
-
+                             SendUserToMainActivity();
                          }
                          else
                          {
-                             Toast.makeText(postactivity.this,"error occured",Toast.LENGTH_SHORT).show();
+                             Toast.makeText(Postactivity.this,"error occured",Toast.LENGTH_SHORT).show();
                              loadingBar.dismiss();
                          }
                      }
 
-                 }
+                 });
 
                }
 
@@ -187,12 +185,13 @@ public class postactivity extends AppCompatActivity {
            public void onCancelled(@NonNull DatabaseError databaseError) {
 
            }
-       })
+       });
     }
 
     private void SendUserToMainActivity()
     {
-
+        Intent i =  new Intent(Postactivity.this, MainActivity.class);
+        startActivity(i);
     }
 
 

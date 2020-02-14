@@ -14,6 +14,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Comments"
+        android:background="@color/harvester"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"/>
@@ -27,7 +28,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="88dp" />
+        android:layout_marginBottom="91dp" />
 
     <EditText
         android:id="@+id/comment_input"
@@ -51,11 +52,11 @@
         android:layout_alignBottom="@id/comment_input"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="328dp"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="-8dp"
+        android:layout_marginStart="331dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"
         android:padding="15dp"
-        android:src="@drawable/post_comment" />
+        android:src="@drawable/ic_send_black_24dp" />
 
 </RelativeLayout>
 

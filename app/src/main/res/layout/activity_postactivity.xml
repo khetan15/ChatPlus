@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".Postactivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-16dp"
+        android:background="@color/forceful_orange"/>
+
     <ImageButton
         android:id="@+id/select_post_image"
         android:layout_width="410dp"

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="7dp"
-        android:background="@android:color/holo_orange_light">
+        android:background="@color/harvester">
 
 
         <LinearLayout

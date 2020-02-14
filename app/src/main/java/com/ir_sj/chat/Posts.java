@@ -3,7 +3,7 @@ package com.ir_sj.chat;
 
 public class Posts
 {
-    public String uid, time, date,  description, fullname;
+    public String uid, time, date,  description, username;
     String postimage;
     String profileimage;
 
@@ -12,14 +12,14 @@ public class Posts
 
     }
 
-    public Posts(String uid, String time, String date, String postimage, String description, String profileimage, String fullname) {
+    public Posts(String uid, String time, String date, String postimage, String description, String profileimage, String username) {
         this.uid = uid;
         this.time = time;
         this.date = date;
         this.postimage = postimage;
         this.description = description;
         this.profileimage = profileimage;
-        this.fullname = fullname;
+        this.username = username;
     }
 
     public String getUid() {
@@ -70,11 +70,11 @@ public class Posts
         this.profileimage = profileimage;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

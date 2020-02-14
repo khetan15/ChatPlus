@@ -192,15 +192,15 @@ public class MainActivity extends AppCompatActivity {
                    (options) {
                @Override
                protected void onBindViewHolder(@NonNull final PostsViewHolder postsViewHolder, int i, @NonNull final Posts posts) {
-                   postsViewHolder.userName.setText(posts.getUsername());
+                   postsViewHolder.userName.setText(posts.getFullname());
                    postsViewHolder.time.setText(posts.getTime());
                    postsViewHolder.date.setText(posts.getDate());
                    postsViewHolder.description.setText(posts.getDescription());
+                   PostKey = getRef(i).getKey();
 
                    postsViewHolder.comment.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
-                           PostKey = posts.getUid()+posts.getDate()+posts.getTime();
                            Intent commentsIntent = new Intent(MainActivity.this, CommentActivity.class);
                            commentsIntent.putExtra("PostKey", PostKey);
                            startActivity(commentsIntent);

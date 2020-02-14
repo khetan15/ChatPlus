@@ -13,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".CommentActivity"></activity>       
-        <activity android:name=".FirstPage"></activity>
+        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".CommentActivity" />
+        <activity android:name=".FirstPage" />
         <activity android:name=".MainActivity" />
-       <activity android:name=".Postactivity"></activity>
+        <activity android:name=".Postactivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".Splashscreen">
             <intent-filter>

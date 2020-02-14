@@ -25,7 +25,8 @@ allprojects {
         maven {
             url "https://maven.google.com" // specifically this worked
         }
-    }}
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

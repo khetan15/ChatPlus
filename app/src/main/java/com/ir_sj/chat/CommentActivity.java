@@ -2,15 +2,18 @@ package com.ir_sj.chat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -42,6 +45,7 @@ public class CommentActivity extends AppCompatActivity {
     private DatabaseReference UserRef, PostsRef;
     private FirebaseAuth mAuth;
 
+    //private  FirebaseRecyclerAdapter firebaseRecyclerAdapterC;
     private String Post_Key, current_user_id;
 
     @Override
@@ -49,13 +53,16 @@ public class CommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
 
-        Post_Key = getIntent().getExtras().get("PostKey").toString();
-        Toast.makeText(this, Post_Key, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, Post_Key, Toast.LENGTH_SHORT).show();
 
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
+
+        Post_Key = getIntent().getExtras().get("PostKey").toString();
         UserRef = FirebaseDatabase.getInstance().getReference("UserData");
         PostsRef= FirebaseDatabase.getInstance().getReference("Posts/"+Post_Key+"/Comments");
+
+        Toast.makeText(this, "oncreate"+Post_Key, Toast.LENGTH_SHORT).show();
 
         CommentsList = (RecyclerView) findViewById(R.id.comments_list);
         CommentsList.setHasFixedSize(true);
@@ -91,11 +98,61 @@ public class CommentActivity extends AppCompatActivity {
                 });
             }
         });
+        DisplayComments();
+
     }
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Post_Key = getIntent().getExtras().get("PostKey").toString();
+        UserRef = FirebaseDatabase.getInstance().getReference("UserData");
+        PostsRef= FirebaseDatabase.getInstance().getReference("Posts/"+Post_Key+"/Comments");
+
+        //Toast.makeText(this, "onstart"+Post_Key, Toast.LENGTH_SHORT).show();
+        DisplayComments();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Post_Key = getIntent().getExtras().get("PostKey").toString();
+        UserRef = FirebaseDatabase.getInstance().getReference("UserData");
+        PostsRef= FirebaseDatabase.getInstance().getReference("Posts/"+Post_Key+"/Comments");
+
+        //Toast.makeText(this, "onresume"+Post_Key, Toast.LENGTH_SHORT).show();
+        DisplayComments();
+    }
+
+    /*@Override
     protected void onStart() {
         super.onStart();
+        FirebaseRecyclerOptions<Comments> options = new FirebaseRecyclerOptions.Builder<Comments>().setQuery(PostsRef, Comments.class).build();
+        FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapterC = new FirebaseRecyclerAdapter<Comments, CommentsViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final CommentsViewHolder commentsViewHolder, int i, @NonNull final Comments comments) {
+                commentsViewHolder.myUserName.setText(comments.getUsername());
+                commentsViewHolder.myTime.setText(comments.getTime());
+                commentsViewHolder.myDate.setText(comments.getDate());
+                commentsViewHolder.myComment.setText(comments.getComment());
+            }
+
+            @NonNull
+            @Override
+            public CommentsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_comments_layout, parent, false);
+
+                return new CommentsViewHolder(view);
+            }
+        };
+        CommentsList.setAdapter(firebaseRecyclerAdapterC);
+        firebaseRecyclerAdapterC.startListening();
+    }*/
+
+    private void DisplayComments()
+    {
         FirebaseRecyclerOptions<Comments> options = new FirebaseRecyclerOptions.Builder<Comments>().setQuery(PostsRef, Comments.class).build();
         FirebaseRecyclerAdapter<Comments, CommentsViewHolder> firebaseRecyclerAdapterC = new FirebaseRecyclerAdapter<Comments, CommentsViewHolder>(options) {
             @Override

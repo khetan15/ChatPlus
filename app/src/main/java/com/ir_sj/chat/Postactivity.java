@@ -3,6 +3,7 @@ package com.ir_sj.chat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -50,6 +51,9 @@ public class Postactivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postactivity);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar5);
+        setSupportActionBar(toolbar);
 
         mAuth= FirebaseAuth.getInstance();
         current_user_id=mAuth.getCurrentUser().getUid();
@@ -157,7 +161,7 @@ public class Postactivity extends AppCompatActivity {
                    postsMap.put("description", Description);
                    postsMap.put("postimage", downloadurl);
                    postsMap.put("dp", UserProfileImage);
-                   postsMap.put("name", UserFullName);
+                   postsMap.put("username", UserFullName);
                    PostsRef.child(current_user_id+postRandomName).setValue(postsMap)
                  .addOnCompleteListener(new OnCompleteListener() {
                      @Override

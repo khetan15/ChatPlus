@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.profile:
-                        SendUserToProfileActivity();
                         break;
 
                     case R.id.jam:
@@ -186,32 +185,22 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-    private void SendUserToProfileActivity()
-    {
-        Intent editprofile= new Intent(MainActivity.this, ProfileActivity.class);
-        startActivity(editprofile);
-    }
-
-    private void DisplayAllUsersPosts()
+        private void DisplayAllUsersPosts()
         {
            FirebaseRecyclerOptions<Posts> options = new FirebaseRecyclerOptions.Builder<Posts>().setQuery(PostsRef, Posts.class).build();
            FirebaseRecyclerAdapter<Posts, PostsViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Posts, PostsViewHolder>
                    (options) {
                @Override
-               protected void onBindViewHolder(@NonNull final PostsViewHolder postsViewHolder, final int i, @NonNull final Posts posts) {
-
-
+               protected void onBindViewHolder(@NonNull final PostsViewHolder postsViewHolder, int i, @NonNull final Posts posts) {
                    postsViewHolder.userName.setText(posts.getFullname());
                    postsViewHolder.time.setText(posts.getTime());
                    postsViewHolder.date.setText(posts.getDate());
                    postsViewHolder.description.setText(posts.getDescription());
-
-
+                   PostKey = getRef(i).getKey();
 
                    postsViewHolder.comment.setOnClickListener(new View.OnClickListener() {
                        @Override
                        public void onClick(View v) {
-                           PostKey = getRef(i).getKey();
                            Intent commentsIntent = new Intent(MainActivity.this, CommentActivity.class);
                            commentsIntent.putExtra("PostKey", PostKey);
                            startActivity(commentsIntent);
